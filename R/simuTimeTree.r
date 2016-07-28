@@ -30,11 +30,6 @@ simuTimeTree <- function(
                       exponential =  system.file("extdata", "exponential_growth.template", package = "timeTreeSim"),
                       logistic = system.file("extdata", "logistic_growth.template", package = "timeTreeSim")
   )
-  ## begin hack
-  tempTemplate <- tempfile("BGenTemplate", fileext = ".template")
-  system(paste("cat", template, ">>", tempTemplate))
-  template <- tempTemplate
-  ## end hack
   CmdString <- sprintf(
     "beastgen -D \"pop_size=%f,growth_rate=%f,t50=%f\" -date_order -1 -date_prefix \\_",
     popSize, growthRate, T50
