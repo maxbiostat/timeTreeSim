@@ -31,12 +31,14 @@ simuTimeTree <- function(
                       logistic = system.file("extdata", "logistic_growth.template", package = "timeTreeSim")
   )
   ## begin hack
+  fastaName <- sub("/tmp/", "", fastaName)
+  XMLName <- sub("/tmp/", "", XMLName)
   tempTemplate <- tempfile("BGenTemplate", fileext = ".template")
   system(paste("cat", template, ">>", tempTemplate))
-  template <- tempTemplate
-  ## end hack
+  template <- sub("/tmp/", "", tempTemplate)
   oriD <- getwd()
   setwd("/tmp/")
+  ## end hack
   CmdString <- sprintf(
     "beastgen -D \"pop_size=%f,growth_rate=%f,t50=%f\" -date_order -1 -date_prefix \\_",
     popSize, growthRate, T50
