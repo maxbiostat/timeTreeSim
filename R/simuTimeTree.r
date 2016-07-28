@@ -51,7 +51,7 @@ simuTimeTree <- function(
     runCommand <- paste("beast -overwrite -seed", SEED,  XMLName)
   }
   system(runCommand, ignore.stdout = !verbose)
-  res <- ape::read.nexus(sub(".xml", ".tree", strsplit(XMLName.short, "/")[[1]][[2]]))
+  res <- ape::read.nexus(sub(".xml", ".tree", strsplit(fastaName, "/")[[1]][[2]]))
   setwd(oriD)
   return(res)
 }
