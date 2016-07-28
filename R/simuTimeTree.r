@@ -32,7 +32,7 @@ simuTimeTree <- function(
   )
   ## begin hack
   fastaName <- sub("/tmp/", "", fastaName)
-  XMLName <- sub("/tmp/", "", XMLName)
+  XMLName.short <- sub("/tmp/", "", XMLName)
   tempTemplate <- tempfile("BGenTemplate", fileext = ".template")
   system(paste("cat", template, ">>", tempTemplate))
   template <- sub("/tmp/", "", tempTemplate)
@@ -43,7 +43,7 @@ simuTimeTree <- function(
     "beastgen -D \"pop_size=%f,growth_rate=%f,t50=%f\" -date_order -1 -date_prefix \\_",
     popSize, growthRate, T50
   )
-  genCommand <- paste(CmdString, template, fastaName, sub(".fasta", ".xml", fastaName) )
+  genCommand <- paste(CmdString, template, fastaName, XMLName.short)
   system(command = genCommand, ignore.stdout = !verbose)
   if(is.null(SEED)){
     runCommand <- paste("beast -overwrite", XMLName)
