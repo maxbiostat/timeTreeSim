@@ -31,6 +31,8 @@ simuTimeTree <- function(
                       logistic = system.file("extdata", "logistic_growth.template", package = "timeTreeSim")
   )
   ## begin hack
+  ## hack is here because BEASTGen deals poorly with absolute paths.
+  ##  If this is fixed these ugly lines can be deleted
   fastaName <- sub("/tmp/", "", fastaName)
   XMLName.short <- sub("/tmp/", "", XMLName)
   tempTemplate <- tempfile("BGenTemplate", fileext = ".template")
@@ -52,6 +54,8 @@ simuTimeTree <- function(
   }
   system(runCommand, ignore.stdout = !verbose)
   res <- ape::read.nexus(sub(".fasta", ".tree", strsplit(fastaName, "/")[[1]][[2]]))
+  ## begin hack
   setwd(oriD)
+  ## end hack
   return(res)
 }
