@@ -22,12 +22,13 @@ simuTimeTree <- function(
   N <- length(taxa_times)
   emptyAln <- matrix("?", nrow = N)
   rownames(emptyAln) <- paste("seq_", taxa_times, sep = "")
-  fastaName <- paste(simu_name, ".fasta", sep = "")
+  fastaName <- tempfile(simu_name, fileext = ".fasta")
+  XMLName <- tempfile(simu_name, fileext = ".xml")
   ape::write.dna(emptyAln, file = fastaName , format = "fasta")
   template <- switch (coalmodel,
-                      constant = paste("constant_pop.template"),
-                      exponential = paste("exponential_growth.template"),
-                      logistic = paste("logistic_growth.template")
+                      constant = system.file("extdata", "constant_pop.template", package = "timeTreeSim"),
+                      exponential =  system.file("extdata", "exponential_growth.template", package = "timeTreeSim"),
+                      logistic = system.file("extdata", "logistic_growth.template", package = "timeTreeSim")
   )
   CmdString <- sprintf(
     "beastgen -D \"pop_size=%f,growth_rate=%f,t50=%f\" -date_order -1 -date_prefix \\_",
@@ -36,11 +37,11 @@ simuTimeTree <- function(
   genCommand <- paste(CmdString, template, fastaName, sub(".fasta", ".xml", fastaName) )
   system(command = genCommand, ignore.stdout = !verbose)
   if(is.null(SEED)){
-    runCommand <- paste("beast -overwrite", sub(".fasta", ".xml", fastaName))
+    runCommand <- paste("beast -overwrite", XMLName)
   }else{
-    runCommand <- paste("beast -overwrite -seed", SEED,  sub(".fasta", ".xml", fastaName))
+    runCommand <- paste("beast -overwrite -seed", SEED,  XMLName)
   }
   system(runCommand, ignore.stdout = !verbose)
-  res <- ape::read.nexus(paste(simu_name,".tree", sep = ""))
+  res <- ape::read.nexus(paste(simu_name, ".tree", sep = ""))
   return(res)
 }
