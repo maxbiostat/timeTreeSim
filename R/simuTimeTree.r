@@ -21,7 +21,7 @@ simuTimeTree <- function(
   require(ape)
   N <- length(taxa_times)
   emptyAln <- matrix("?", nrow = N)
-  rownames(emptyAln) <- paste("seq_", taxa_times, sep = "")
+  rownames(emptyAln) <- paste("seq_", seq_along(taxa_times), "_", taxa_times, sep = "")
   fastaName <- tempfile(simu_name, fileext = ".fasta")
   XMLName <- tempfile(simu_name, fileext = ".xml")
   ape::write.dna(emptyAln, file = fastaName , format = "fasta")
