@@ -46,8 +46,7 @@ simuTimeTree <- function(
     popSize, growthRate, T50
   )
   genCommand <- paste(CmdString, template, fastaName, XMLName.short)
-  system(command = genCommand, ignore.stdout = !verbose)
-  system("export LD_LIBRARY_PATH=$HOME/lib:$LD_LIBRARY_PATH") ## this is a hack because BEAGLE is weird at linking
+  system(command = genCommand, ignore.stdout = !verbose)  
   if(is.null(SEED)){
     runCommand <- paste("beast -overwrite", XMLName)
   }else{
